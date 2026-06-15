@@ -5,13 +5,20 @@ const csvHeaders = [
   "date",
   "type",
   "category",
+  "spendCategory",
   "amount",
+  "fiatValue",
   "token",
+  "walletLabel",
+  "merchant",
+  "counterparty",
   "from",
   "to",
   "txHash",
   "status",
   "network",
+  "fee",
+  "note",
 ];
 
 function escapeValue(value: string | number) {
@@ -26,13 +33,20 @@ export function buildTransactionsCsv(transactions: ArcTransaction[]) {
       transaction.date,
       transaction.type,
       transaction.category,
+      transaction.spendCategory,
       transaction.amount,
+      transaction.fiatValue,
       transaction.token,
+      transaction.walletLabel,
+      transaction.merchant,
+      transaction.counterparty,
       transaction.from,
       transaction.to,
       transaction.txHash,
       transaction.status,
       transaction.network,
+      transaction.fee,
+      transaction.note,
     ]
       .map((value) => escapeValue(value))
       .join(","),
@@ -60,4 +74,3 @@ export function downloadTransactionsCsv(transactions: ArcTransaction[], filename
   document.body.removeChild(link);
   URL.revokeObjectURL(url);
 }
-

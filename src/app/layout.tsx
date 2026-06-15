@@ -16,7 +16,7 @@ const displayFont = Sora({
 
 export const metadata: Metadata = {
   title: "ArcSpend",
-  description: "Track every USDC move on Arc, clearly.",
+  description: "Track. Analyze. Optimize. Powered by AI.",
 };
 
 export default function RootLayout({
@@ -32,4 +32,3 @@ export default function RootLayout({
     </html>
   );
 }
-

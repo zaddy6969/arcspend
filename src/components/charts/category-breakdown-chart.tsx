@@ -10,7 +10,7 @@ const colors = ["#6ee7f9", "#84f0ca", "#f6c177", "#ff8f70", "#38bdf8", "#c084fc"
 export function CategoryBreakdownChart({ data }: { data: CategoryTotal[] }) {
   if (data.length === 0) {
     return (
-      <div className="flex h-[320px] items-center justify-center rounded-[28px] border border-dashed border-white/10 bg-slate-950/30 text-sm text-slate-400">
+      <div className="flex h-[320px] items-center justify-center rounded-[28px] border border-dashed border-white/10 bg-white/[0.03] text-sm text-slate-400">
         Category totals will appear here when transactions are available.
       </div>
     );
@@ -36,8 +36,8 @@ export function CategoryBreakdownChart({ data }: { data: CategoryTotal[] }) {
           <Tooltip
             contentStyle={{
               borderRadius: "18px",
-              border: "1px solid rgba(255,255,255,0.08)",
-              background: "rgba(15, 23, 40, 0.92)",
+              border: "1px solid rgba(148,163,184,0.18)",
+              background: "rgba(8, 15, 28, 0.94)",
             }}
             formatter={(value) => formatCurrency(Number(value ?? 0))}
             labelStyle={{ color: "#e2e8f0" }}
@@ -46,7 +46,7 @@ export function CategoryBreakdownChart({ data }: { data: CategoryTotal[] }) {
       </ResponsiveContainer>
       <div className="mt-5 grid gap-3 sm:grid-cols-2">
         {data.map((item, index) => (
-          <div className="rounded-2xl border border-white/10 bg-slate-950/30 p-3" key={item.category}>
+          <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-3" key={item.category}>
             <div className="mb-2 flex items-center gap-2">
               <span
                 className="h-2.5 w-2.5 rounded-full"
@@ -57,6 +57,15 @@ export function CategoryBreakdownChart({ data }: { data: CategoryTotal[] }) {
             <p className="text-sm text-slate-400">
               {formatCurrency(item.total)} across {item.count} transactions
             </p>
+            <div className="mt-3 h-1.5 rounded-full bg-white/[0.08]">
+              <div
+                className="h-1.5 rounded-full"
+                style={{
+                  width: `${Math.min(item.share * 100, 100)}%`,
+                  backgroundColor: colors[index % colors.length],
+                }}
+              />
+            </div>
           </div>
         ))}
       </div>

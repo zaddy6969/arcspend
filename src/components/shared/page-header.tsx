@@ -9,13 +9,17 @@ interface PageHeaderProps {
 
 export function PageHeader({ actions, badge, description, title }: PageHeaderProps) {
   return (
-    <section className="shell-card p-6 sm:p-8">
+    <section className="surface-card p-6 sm:p-8">
       <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
         <div className="space-y-4">
-          <span className="eyebrow">{badge}</span>
+          <span className="ui-pill">{badge}</span>
           <div className="space-y-3">
-            <h1 className="section-title">{title}</h1>
-            <p className="section-copy">{description}</p>
+            <h1 className="text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
+              {title}
+            </h1>
+            <p className="max-w-3xl text-sm leading-7 text-slate-300 sm:text-base">
+              {description}
+            </p>
           </div>
         </div>
         {actions ? <div className="flex flex-wrap items-center gap-3">{actions}</div> : null}
@@ -23,4 +27,3 @@ export function PageHeader({ actions, badge, description, title }: PageHeaderPro
     </section>
   );
 }
-

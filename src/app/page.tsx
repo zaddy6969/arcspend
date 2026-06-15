@@ -2,293 +2,162 @@ import Link from "next/link";
 import {
   ArrowRight,
   BarChart3,
-  CircleDollarSign,
-  Download,
-  ReceiptText,
+  CreditCard,
   ShieldCheck,
   Sparkles,
-  WalletCards,
+  Wallet,
 } from "lucide-react";
 
-import { demoTransactions } from "@/data/demo-transactions";
+import { aiInsights, demoTransactions, demoWallets } from "@/data/demo-platform";
+import { formatCurrency, formatPercent } from "@/lib/format";
 import {
   getAvailableMonths,
-  getCategoryTotals,
   getMonthlySnapshot,
+  getPortfolioBalance,
+  getPortfolioChange,
   getRecentTransactions,
 } from "@/lib/metrics";
 
-const featureCards = [
-  {
-    title: "Track USDC income and expenses",
-    description: "Separate inflow from outflow instantly and keep stablecoin activity readable.",
-    icon: CircleDollarSign,
-  },
-  {
-    title: "Auto-categorize send, receive, swap, bridge, fee",
-    description: "ArcSpend organizes raw wallet motion into categories that make sense at a glance.",
-    icon: Sparkles,
-  },
-  {
-    title: "Monthly spending report",
-    description: "See how each month moved, what changed, and where your wallet was most active.",
-    icon: BarChart3,
-  },
-  {
-    title: "Receipt mode for every transaction",
-    description: "Open a clean receipt view for any transaction and copy the details in seconds.",
-    icon: ReceiptText,
-  },
-  {
-    title: "CSV export",
-    description: "Take your history with you whenever you need to reconcile activity outside the app.",
-    icon: Download,
-  },
-  {
-    title: "Built for Arc users",
-    description: "Designed around Arc spending clarity, demo-ready today and easy to wire to live data later.",
-    icon: WalletCards,
-  },
-];
-
 export default function LandingPage() {
-  const latestMonth = getAvailableMonths(demoTransactions)[0];
-  const summary = getMonthlySnapshot(demoTransactions, latestMonth);
-  const categoryTotals = getCategoryTotals(summary.transactions).slice(0, 4);
-  const recentTransactions = getRecentTransactions(demoTransactions, 4);
+  const latestMonth = getAvailableMonths(demoTransactions)[0] ?? "2026-06";
+  const snapshot = getMonthlySnapshot(demoTransactions, latestMonth);
+  const portfolioBalance = getPortfolioBalance(demoWallets);
+  const portfolioChange = getPortfolioChange(demoWallets);
+  const recentTransactions = getRecentTransactions(demoTransactions, 3);
 
   return (
-    <main className="mx-auto flex min-h-screen w-full max-w-7xl flex-col gap-14 px-6 pb-20 pt-8 sm:px-8 lg:px-10">
-      <header className="flex items-center justify-between rounded-full border border-white/10 bg-white/[0.04] px-5 py-3 backdrop-blur-xl">
-        <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-cyan via-sky-300 to-mint text-slate-950 shadow-[0_10px_30px_rgba(110,231,249,0.25)]">
-            <CircleDollarSign className="h-5 w-5" />
+    <main className="mx-auto flex min-h-screen w-full max-w-[1560px] flex-col gap-8 px-4 pb-20 pt-4 sm:px-6 lg:px-8">
+      <header className="surface-card p-4 sm:p-5">
+        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+          <div className="flex items-center gap-3">
+            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-cyan via-sky-300 to-amber-300 text-slate-950 shadow-[0_24px_60px_rgba(103,232,249,0.25)]">
+              <CreditCard className="h-5 w-5" />
+            </div>
+            <div>
+              <p className="font-display text-xl text-white">ArcSpend</p>
+              <p className="mt-1 text-xs uppercase tracking-[0.22em] text-slate-400">
+                Track. Analyze. Optimize. Powered by AI.
+              </p>
+            </div>
           </div>
-          <div>
-            <p className="font-display text-lg text-white">ArcSpend</p>
-            <p className="text-xs uppercase tracking-[0.18em] text-slate-400">
-              Track every USDC move on Arc, clearly.
-            </p>
+          <div className="flex flex-wrap gap-3">
+            <Link className="button-secondary" href="/wallets">
+              Wallets
+            </Link>
+            <Link className="button-primary" href="/dashboard">
+              Open dashboard
+              <ArrowRight className="h-4 w-4" />
+            </Link>
           </div>
-        </div>
-        <div className="hidden items-center gap-3 sm:flex">
-          <Link className="action-secondary" href="/dashboard">
-            Launch Dashboard
-          </Link>
         </div>
       </header>
 
-      <section className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
-        <div className="space-y-8">
-          <span className="eyebrow">
+      <section className="grid gap-5 xl:grid-cols-[1.1fr_0.9fr]">
+        <article className="surface-card p-6 sm:p-8">
+          <span className="ui-pill">
             <ShieldCheck className="h-3.5 w-3.5" />
-            Premium Arc expense tracking
+            Premium crypto expense intelligence
           </span>
-          <div className="space-y-5">
-            <h1 className="max-w-4xl text-balance text-5xl font-semibold leading-[1.02] sm:text-6xl lg:text-7xl">
-              Understand where your USDC goes on Arc
-            </h1>
-            <p className="max-w-2xl text-lg leading-8 text-slate-300">
-              ArcSpend turns raw wallet activity into clear expenses, income, charts,
-              receipts, and monthly reports.
-            </p>
-          </div>
-          <div className="flex flex-col gap-3 sm:flex-row">
-            <Link className="action-primary gap-2" href="/dashboard">
-              Launch Dashboard
+          <h1 className="mt-6 max-w-5xl text-5xl font-semibold tracking-[-0.05em] text-white sm:text-6xl lg:text-7xl">
+            A funded-startup feel for AI-powered crypto expense management.
+          </h1>
+          <p className="mt-6 max-w-3xl text-lg leading-8 text-slate-300">
+            ArcSpend turns wallet activity into a polished portfolio command center with AI
+            insights, premium analytics, multi-wallet management, transfer guardrails, and
+            transaction intelligence that feels investor-demo ready.
+          </p>
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <Link className="button-primary" href="/dashboard">
+              Launch ArcSpend
               <ArrowRight className="h-4 w-4" />
             </Link>
-            <Link className="action-secondary gap-2" href="/dashboard">
-              View Demo
-              <Sparkles className="h-4 w-4" />
+            <Link className="button-secondary" href="/analytics">
+              Explore analytics
             </Link>
           </div>
-          <div className="grid gap-4 sm:grid-cols-3">
-            <div className="shell-card p-5">
-              <p className="metric-label">Monthly Spending</p>
-              <p className="metric-value">${summary.expenses.toLocaleString()}</p>
+
+          <div className="mt-8 grid gap-4 sm:grid-cols-3">
+            <div className="rounded-[26px] border border-white/10 bg-white/[0.03] p-5">
+              <p className="metric-label">Portfolio balance</p>
+              <p className="mt-3 text-3xl font-semibold text-white">{formatCurrency(portfolioBalance)}</p>
             </div>
-            <div className="shell-card p-5">
-              <p className="metric-label">Monthly Income</p>
-              <p className="metric-value">${summary.income.toLocaleString()}</p>
+            <div className="rounded-[26px] border border-white/10 bg-white/[0.03] p-5">
+              <p className="metric-label">Monthly change</p>
+              <p className="mt-3 text-3xl font-semibold text-white">{formatPercent(portfolioChange)}</p>
             </div>
-            <div className="shell-card p-5">
-              <p className="metric-label">Transactions</p>
-              <p className="metric-value">{summary.transactionCount}</p>
+            <div className="rounded-[26px] border border-white/10 bg-white/[0.03] p-5">
+              <p className="metric-label">Tracked spend</p>
+              <p className="mt-3 text-3xl font-semibold text-white">{formatCurrency(snapshot.expenses)}</p>
             </div>
           </div>
-        </div>
+        </article>
 
-        <div className="shell-card relative overflow-hidden p-6 sm:p-7">
-          <div className="absolute inset-0 bg-hero opacity-60" />
-          <div className="relative space-y-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="metric-label">Live Preview</p>
-                <h2 className="mt-2 text-2xl">Expense clarity in one view</h2>
-              </div>
-              <span className="rounded-full border border-mint/25 bg-mint/10 px-3 py-1 text-xs font-semibold text-mint">
-                Demo Data
-              </span>
-            </div>
-            <div className="grid gap-4 sm:grid-cols-2">
-              <div className="rounded-3xl border border-white/10 bg-slate-950/40 p-5">
-                <p className="metric-label">Net Flow</p>
-                <p className="mt-3 text-3xl font-semibold text-white">
-                  ${summary.netFlow.toLocaleString()}
-                </p>
-                <p className="mt-2 text-sm text-slate-400">
-                  Income minus tracked Arc spending for {summary.label}.
-                </p>
-              </div>
-              <div className="rounded-3xl border border-white/10 bg-slate-950/40 p-5">
-                <p className="metric-label">Top Categories</p>
-                <div className="mt-3 space-y-3">
-                  {categoryTotals.map((item) => (
-                    <div className="space-y-2" key={item.category}>
-                      <div className="flex items-center justify-between text-sm text-white">
-                        <span>{item.category}</span>
-                        <span>${item.total.toLocaleString()}</span>
-                      </div>
-                      <div className="h-2 rounded-full bg-white/5">
-                        <div
-                          className="h-2 rounded-full bg-gradient-to-r from-cyan via-sky-300 to-mint"
-                          style={{ width: `${Math.min(item.share * 100, 100)}%` }}
-                        />
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-            <div className="rounded-3xl border border-white/10 bg-slate-950/40 p-5">
-              <div className="mb-4 flex items-center justify-between">
-                <p className="metric-label">Recent Arc Activity</p>
-                <span className="text-xs uppercase tracking-[0.2em] text-slate-500">
-                  {summary.label}
-                </span>
-              </div>
-              <div className="space-y-3">
-                {recentTransactions.map((transaction) => (
-                  <div
-                    className="flex items-center justify-between rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3"
-                    key={transaction.id}
-                  >
-                    <div>
-                      <p className="font-medium text-white">{transaction.category}</p>
-                      <p className="text-sm text-slate-400">{transaction.token}</p>
-                    </div>
-                    <div className="text-right">
-                      <p className="font-medium text-white">
-                        {transaction.type === "Income" ? "+" : "-"}$
-                        {transaction.amount.toLocaleString()}
-                      </p>
-                      <p className="text-sm text-slate-400">{transaction.status}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="shell-card p-6 sm:p-8">
-        <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
-          <div className="space-y-3">
-            <span className="eyebrow">What ArcSpend gives you</span>
-            <h2 className="section-title">Submission-ready finance UX without paid APIs</h2>
-            <p className="section-copy">
-              ArcSpend is built to work in demo mode first, so the story is already clear:
-              spending, income, receipts, reports, and a path to live Arc wallet data later.
-            </p>
-          </div>
-          <div className="max-w-sm rounded-[26px] border border-white/10 bg-white/[0.03] p-5">
-            <p className="metric-label">Project Summary</p>
-            <p className="mt-3 text-sm leading-7 text-slate-300">
-              ArcSpend is a crypto expense tracker built for Arc users. It turns USDC and
-              EURC wallet activity into clear expenses, income, receipts, charts, and
-              monthly reports without needing any paid AI API.
-            </p>
-          </div>
-        </div>
-
-        <div className="mt-8 grid gap-5 lg:grid-cols-3">
-          {featureCards.map((feature) => {
-            const Icon = feature.icon;
-
-            return (
-              <article className="rounded-[28px] border border-white/10 bg-white/[0.03] p-6" key={feature.title}>
-                <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-cyan/10 text-cyan">
-                  <Icon className="h-5 w-5" />
-                </div>
-                <h3 className="text-xl">{feature.title}</h3>
-                <p className="mt-3 text-sm leading-7 text-slate-400">{feature.description}</p>
-              </article>
-            );
-          })}
-        </div>
-      </section>
-
-      <section className="grid gap-6 lg:grid-cols-[0.8fr_1.2fr]">
-        <div className="shell-card p-6">
-          <span className="eyebrow">Demo-first foundation</span>
-          <h2 className="mt-4 text-3xl">Ready now, easy to connect later</h2>
-          <p className="mt-4 text-sm leading-7 text-slate-300">
-            Start with mocked Arc Testnet activity, keep the wallet connection optional, and
-            plug in real explorer or RPC data when you are ready.
-          </p>
-          <div className="soft-divider my-6" />
-          <div className="space-y-4 text-sm text-slate-300">
-            <div className="flex items-center justify-between rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3">
-              <span>Wallet connection</span>
-              <span className="text-cyan">Optional</span>
-            </div>
-            <div className="flex items-center justify-between rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3">
-              <span>Receipt export</span>
-              <span className="text-amber">UI ready</span>
-            </div>
-            <div className="flex items-center justify-between rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3">
-              <span>CSV export</span>
-              <span className="text-mint">Working</span>
-            </div>
-          </div>
-        </div>
-
-        <div className="shell-card p-6">
+        <article className="surface-card p-6 sm:p-8">
           <div className="flex items-center justify-between">
             <div>
-              <p className="metric-label">ArcSpend Workflow</p>
-              <h2 className="mt-2 text-2xl">Raw transactions, clean decisions</h2>
+              <span className="ui-pill">
+                <Sparkles className="h-3.5 w-3.5" />
+                Live product preview
+              </span>
+              <h2 className="mt-4 text-2xl font-semibold text-white">What the AI sees</h2>
             </div>
-            <Link className="action-secondary" href="/dashboard">
-              Open MVP
-            </Link>
+            <BarChart3 className="h-5 w-5 text-cyan" />
           </div>
-          <div className="mt-6 grid gap-4 sm:grid-cols-3">
-            <div className="rounded-[24px] border border-white/10 bg-slate-950/40 p-5">
-              <p className="metric-label">1</p>
-              <h3 className="mt-3 text-lg">Ingest activity</h3>
-              <p className="mt-2 text-sm leading-7 text-slate-400">
-                Demo data flows in even before a wallet is connected.
-              </p>
-            </div>
-            <div className="rounded-[24px] border border-white/10 bg-slate-950/40 p-5">
-              <p className="metric-label">2</p>
-              <h3 className="mt-3 text-lg">Categorize motion</h3>
-              <p className="mt-2 text-sm leading-7 text-slate-400">
-                Track send, receive, swap, bridge, fee, and unknown behavior separately.
-              </p>
-            </div>
-            <div className="rounded-[24px] border border-white/10 bg-slate-950/40 p-5">
-              <p className="metric-label">3</p>
-              <h3 className="mt-3 text-lg">Export clarity</h3>
-              <p className="mt-2 text-sm leading-7 text-slate-400">
-                Use receipts, monthly reports, and CSV export to make activity actionable.
-              </p>
-            </div>
+          <div className="mt-6 grid gap-3">
+            {aiInsights.slice(0, 3).map((insight) => (
+              <div className="rounded-[24px] border border-white/10 bg-white/[0.03] p-4" key={insight.title}>
+                <div className="flex items-center justify-between gap-4">
+                  <p className="font-semibold text-white">{insight.title}</p>
+                  <span className="text-sm font-semibold text-cyan">{insight.metric}</span>
+                </div>
+                <p className="mt-2 text-sm leading-7 text-slate-400">{insight.message}</p>
+              </div>
+            ))}
           </div>
-        </div>
+        </article>
+      </section>
+
+      <section className="grid gap-5 xl:grid-cols-[0.92fr_1.08fr]">
+        <article className="surface-card p-6 sm:p-8">
+          <span className="ui-pill">
+            <Wallet className="h-3.5 w-3.5" />
+            Product pillars
+          </span>
+          <div className="mt-6 grid gap-4">
+            {[
+              "Premium dashboard with AI insights, health score, and quick actions.",
+              "Interactive analytics across daily, weekly, monthly, and yearly patterns.",
+              "Multi-wallet portfolio management for spending, trading, and treasury flows.",
+              "Professional send, receive, swap, and bridge experiences with previews.",
+            ].map((item) => (
+              <div className="rounded-[24px] border border-white/10 bg-white/[0.03] p-4 text-sm leading-7 text-slate-300" key={item}>
+                {item}
+              </div>
+            ))}
+          </div>
+        </article>
+
+        <article className="surface-card p-6 sm:p-8">
+          <span className="ui-pill">Recent portfolio motion</span>
+          <div className="mt-6 space-y-3">
+            {recentTransactions.map((transaction) => (
+              <div className="rounded-[24px] border border-white/10 bg-white/[0.03] p-4" key={transaction.id}>
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <p className="font-semibold text-white">{transaction.merchant}</p>
+                    <p className="mt-1 text-sm text-slate-400">
+                      {transaction.walletLabel} / {transaction.category}
+                    </p>
+                  </div>
+                  <div className="text-right">
+                    <p className="font-semibold text-white">{formatCurrency(transaction.fiatValue)}</p>
+                    <p className="mt-1 text-sm text-slate-500">{transaction.network}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </article>
       </section>
     </main>
   );
