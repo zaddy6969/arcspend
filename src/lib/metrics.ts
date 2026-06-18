@@ -257,7 +257,7 @@ export function getMonthlySnapshot(
 
 export function getReportInsight(snapshot: MonthlySnapshot) {
   if (snapshot.transactions.length === 0) {
-    return "No live Arc transactions are available for this month yet. Re-enable Demo Mode to preview the full report experience.";
+    return "No transactions are available for the selected month yet, so ArcSpend cannot generate a full narrative summary.";
   }
 
   const insights: string[] = [];

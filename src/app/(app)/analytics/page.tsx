@@ -3,7 +3,6 @@
 import dynamic from "next/dynamic";
 import { useState } from "react";
 import {
-  Activity,
   ArrowUpRight,
   ShieldCheck,
   Sparkles,
@@ -11,7 +10,6 @@ import {
 } from "lucide-react";
 
 import { PanelSkeleton } from "@/components/platform/panel-skeleton";
-import { useAppState } from "@/components/providers/app-state-provider";
 import { PageHeader } from "@/components/shared/page-header";
 import { budgetBuckets, demoTransactions, forecastCards } from "@/data/demo-platform";
 import { formatCurrency, formatPercent } from "@/lib/format";
@@ -47,33 +45,14 @@ const CategoryBreakdownChart = dynamic(
 const trendRanges: TrendRange[] = ["Daily", "Weekly", "Monthly", "Yearly"];
 
 export default function AnalyticsPage() {
-  const { demoMode, setDemoMode } = useAppState();
   const [activeRange, setActiveRange] = useState<TrendRange>("Monthly");
-  const transactions = demoMode ? demoTransactions : [];
+  const transactions = demoTransactions;
   const latestMonth = getAvailableMonths(transactions)[0] ?? "2026-06";
   const snapshot = getMonthlySnapshot(transactions, latestMonth);
   const trendData = getTrendSeries(transactions, activeRange);
   const categoryTotals = getCategoryTotals(snapshot.transactions);
   const healthScore = getFinancialHealthScore(snapshot);
   const savingsScore = Math.max(68, Math.min(96, Math.round(healthScore + 4)));
-
-  if (!demoMode) {
-    return (
-      <section className="surface-card p-8 text-center sm:p-10">
-        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-white/[0.06]">
-          <Activity className="h-6 w-6 text-cyan" />
-        </div>
-        <h1 className="mt-5 text-3xl font-semibold text-white">Analytics needs activity data</h1>
-        <p className="mx-auto mt-4 max-w-2xl text-sm leading-7 text-slate-400 sm:text-base">
-          ArcSpend never leaves this page empty. Re-enable demo mode and the spending trend,
-          category analysis, budget overview, and AI forecast will all come back instantly.
-        </p>
-        <button className="button-primary mx-auto mt-6" onClick={() => setDemoMode(true)} type="button">
-          Restore demo analytics
-        </button>
-      </section>
-    );
-  }
 
   return (
     <div className="space-y-5">

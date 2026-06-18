@@ -103,35 +103,14 @@ function getGreeting() {
 }
 
 export default function DashboardPage() {
-  const { demoMode, selectedWallet, setDemoMode } = useAppState();
-  const transactions = demoMode
-    ? getTransactionsForWallet(demoTransactions, selectedWallet.id)
-    : [];
+  const { selectedWallet } = useAppState();
+  const transactions = getTransactionsForWallet(demoTransactions, selectedWallet.id);
   const latestMonth = getAvailableMonths(transactions)[0] ?? "2026-06";
   const snapshot = getMonthlySnapshot(transactions, latestMonth);
   const trendData = getTrendSeries(transactions, "Monthly");
   const categoryTotals = getCategoryTotals(transactions);
   const recentTransactions = getRecentTransactions(transactions, 4);
   const healthScore = getFinancialHealthScore(snapshot);
-
-  if (!demoMode) {
-    return (
-      <section className="surface-card p-8 text-center sm:p-10">
-        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-white/[0.06]">
-          <Sparkles className="h-6 w-6 text-cyan" />
-        </div>
-        <h1 className="mt-5 text-3xl font-semibold text-white">Live sync is the next layer</h1>
-        <p className="mx-auto mt-4 max-w-2xl text-sm leading-7 text-slate-400 sm:text-base">
-          The new ArcSpend experience is ready, but it still needs Demo Mode for the wallet
-          activity underneath it. Re-enable demo data to explore the full dashboard, AI
-          insights, charts, and wallet intelligence.
-        </p>
-        <button className="button-primary mx-auto mt-6" onClick={() => setDemoMode(true)} type="button">
-          Re-enable demo mode
-        </button>
-      </section>
-    );
-  }
 
   return (
     <div className="space-y-5">

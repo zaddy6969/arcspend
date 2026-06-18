@@ -236,7 +236,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                   </span>
                   <span className="ui-pill">
                     <ShieldCheck className="h-3.5 w-3.5" />
-                    {demoMode ? "AI demo mode active" : "Live sync pending"}
+                    {demoMode ? "Submission build active" : "Presentation mode paused"}
                   </span>
                   <span className="rounded-full border border-white/10 bg-white/[0.05] px-3 py-1 text-xs font-medium text-slate-300">
                     {selectedWallet.network}

@@ -55,7 +55,6 @@ export function buildTransactionsCsv(transactions: ArcTransaction[]) {
   return [csvHeaders.join(","), ...rows].join("\n");
 }
 
-// TODO: Add real CSV download with live Arc wallet history and user-selected date ranges.
 export function downloadTransactionsCsv(transactions: ArcTransaction[], filename: string) {
   if (typeof window === "undefined") {
     return;

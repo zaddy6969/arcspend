@@ -17,7 +17,7 @@ export function SpendingAreaChart({ data }: { data: FlowPoint[] }) {
   if (data.length === 0) {
     return (
       <div className="flex h-[320px] items-center justify-center rounded-[28px] border border-dashed border-white/10 bg-slate-950/30 text-sm text-slate-400">
-        Enable Demo Mode or connect a live Arc sync to see chart activity here.
+        Spend and inflow activity will appear here once the selected wallet has tracked movement.
       </div>
     );
   }

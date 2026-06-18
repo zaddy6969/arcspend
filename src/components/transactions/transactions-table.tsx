@@ -109,7 +109,7 @@ export function TransactionsTable({
       {visibleTransactions.length === 0 ? (
         <div className="mt-6">
           <EmptyDataState
-            description="There are no transactions in the current mode yet. Re-enable Demo Mode or connect real Arc history later."
+            description="There are no transactions in the current dataset yet. Try a different filter or load a richer activity sample."
             title="No transactions to display"
           />
         </div>
@@ -177,4 +177,3 @@ export function TransactionsTable({
     </div>
   );
 }
-

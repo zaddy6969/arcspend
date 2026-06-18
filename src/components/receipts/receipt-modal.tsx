@@ -55,7 +55,6 @@ export function ReceiptModal({ onClose, transaction }: ReceiptModalProps) {
           <X className="h-4 w-4" />
         </button>
         <ReceiptCard copied={copied} onCopy={() => void handleCopy()} showActions transaction={transaction} />
-        {/* TODO: Add real receipt PDF export. */}
       </div>
     </div>
   );

@@ -24,7 +24,6 @@ interface AppStateContextValue {
 
 const AppStateContext = createContext<AppStateContextValue | undefined>(undefined);
 
-const demoModeStorageKey = "arcspend-demo-mode";
 const walletStorageKey = "arcspend-wallet-address";
 const selectedWalletStorageKey = "arcspend-selected-wallet";
 
@@ -41,13 +40,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     // Hydrate client-only local preferences after mount to avoid server/client storage mismatch.
     /* eslint-disable react-hooks/set-state-in-effect */
-    const storedDemoMode = window.localStorage.getItem(demoModeStorageKey);
     const storedWalletAddress = window.localStorage.getItem(walletStorageKey);
     const storedSelectedWallet = window.localStorage.getItem(selectedWalletStorageKey);
-
-    if (storedDemoMode !== null) {
-      setDemoMode(storedDemoMode === "true");
-    }
 
     if (storedWalletAddress) {
       setWalletAddress(storedWalletAddress);
@@ -66,8 +60,6 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       return;
     }
 
-    window.localStorage.setItem(demoModeStorageKey, String(demoMode));
-
     if (walletAddress) {
       window.localStorage.setItem(walletStorageKey, walletAddress);
     } else {
@@ -83,7 +75,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     }
 
     if (!window.ethereum?.request) {
-      setWalletError("No browser wallet was detected. Demo Data is still active.");
+      setWalletError("No browser wallet was detected. ArcSpend will stay in its curated presentation state.");
       return;
     }
 
@@ -99,7 +91,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
         setWalletAddress(accounts[0]);
       }
     } catch {
-      setWalletError("Wallet connection was cancelled. You can keep exploring with Demo Data.");
+      setWalletError("Wallet connection was cancelled. You can keep exploring the submission build.");
     } finally {
       setIsConnecting(false);
     }
@@ -111,7 +103,6 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
 
   function clearLocalData() {
     if (typeof window !== "undefined") {
-      window.localStorage.removeItem(demoModeStorageKey);
       window.localStorage.removeItem(walletStorageKey);
       window.localStorage.removeItem(selectedWalletStorageKey);
     }
@@ -120,6 +111,10 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     setWalletAddress(null);
     setWalletError(null);
     setSelectedWalletId(demoWallets[0]?.id ?? "wallet-core");
+  }
+
+  function keepPresentationModeEnabled() {
+    setDemoMode(true);
   }
 
   return (
@@ -135,7 +130,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
         selectedWallet,
         selectedWalletId,
         setSelectedWalletId,
-        setDemoMode,
+        setDemoMode: keepPresentationModeEnabled,
         connectWallet,
         disconnectWallet,
         clearLocalData,

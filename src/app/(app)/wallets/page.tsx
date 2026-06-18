@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowUpRight, ShieldCheck, Wallet } from "lucide-react";
+import { ArrowUpRight, ShieldCheck } from "lucide-react";
 
 import { useAppState } from "@/components/providers/app-state-provider";
 import { PageHeader } from "@/components/shared/page-header";
@@ -9,28 +9,8 @@ import { formatCompactCurrency, formatCurrency, formatPercent, formatTokenAmount
 import { getTransactionsForWallet } from "@/lib/metrics";
 
 export default function WalletsPage() {
-  const { demoMode, selectedWallet, setDemoMode } = useAppState();
-  const transactions = demoMode
-    ? getTransactionsForWallet(demoTransactions, selectedWallet.id)
-    : [];
-
-  if (!demoMode) {
-    return (
-      <section className="surface-card p-8 text-center sm:p-10">
-        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-white/[0.06]">
-          <Wallet className="h-6 w-6 text-cyan" />
-        </div>
-        <h1 className="mt-5 text-3xl font-semibold text-white">Wallet management is ready</h1>
-        <p className="mx-auto mt-4 max-w-2xl text-sm leading-7 text-slate-400 sm:text-base">
-          The multi-wallet view is built, including asset allocation and switching. Re-enable
-          demo mode to populate balances until live wallet sync is connected.
-        </p>
-        <button className="button-primary mx-auto mt-6" onClick={() => setDemoMode(true)} type="button">
-          Re-enable demo mode
-        </button>
-      </section>
-    );
-  }
+  const { selectedWallet } = useAppState();
+  const transactions = getTransactionsForWallet(demoTransactions, selectedWallet.id);
 
   return (
     <div className="space-y-5">

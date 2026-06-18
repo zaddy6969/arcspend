@@ -1,13 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { BellRing, Database, ShieldCheck, Sparkles } from "lucide-react";
+import { BellRing, Database, ShieldCheck, Sparkles, Stars } from "lucide-react";
 
 import { useAppState } from "@/components/providers/app-state-provider";
 import { PageHeader } from "@/components/shared/page-header";
 
 export default function SettingsPage() {
-  const { clearLocalData, demoMode, selectedWallet, setDemoMode } = useAppState();
+  const { clearLocalData, demoMode, selectedWallet } = useAppState();
   const [alertsEnabled, setAlertsEnabled] = useState(true);
   const [dailyDigest, setDailyDigest] = useState(true);
 
@@ -15,7 +15,7 @@ export default function SettingsPage() {
     <div className="space-y-5">
       <PageHeader
         badge="Settings"
-        description="Control demo data, AI notifications, wallet defaults, and the local state that powers your ArcSpend workspace."
+        description="Review presentation-mode defaults, AI notifications, wallet context, and the local preferences that power your ArcSpend submission build."
         title="Preference controls that still feel premium"
       />
 
@@ -30,18 +30,15 @@ export default function SettingsPage() {
             <div className="rounded-[26px] border border-white/10 bg-white/[0.03] p-5">
               <div className="flex items-center justify-between gap-4">
                 <div>
-                  <p className="font-semibold text-white">Demo mode</p>
+                  <p className="font-semibold text-white">Presentation mode</p>
                   <p className="mt-2 text-sm text-slate-400">
-                    Keep ArcSpend instantly populated while live sync is still coming online.
+                    ArcSpend stays locked to a curated portfolio scenario so the submission build
+                    always opens in a polished, investor-ready state.
                   </p>
                 </div>
-                <button
-                  className={`rounded-full px-4 py-2 text-sm font-medium ${demoMode ? "bg-cyan text-slate-950" : "bg-white/[0.08] text-slate-300"}`}
-                  onClick={() => setDemoMode(!demoMode)}
-                  type="button"
-                >
-                  {demoMode ? "Enabled" : "Disabled"}
-                </button>
+                <span className="rounded-full bg-cyan px-4 py-2 text-sm font-medium text-slate-950">
+                  {demoMode ? "Locked On" : "Paused"}
+                </span>
               </div>
             </div>
 
@@ -56,6 +53,22 @@ export default function SettingsPage() {
                 <span className="rounded-full border border-white/10 bg-white/[0.05] px-4 py-2 text-sm text-slate-300">
                   Active
                 </span>
+              </div>
+            </div>
+
+            <div className="rounded-[26px] border border-white/10 bg-white/[0.03] p-5">
+              <div className="flex items-start gap-4">
+                <div className="icon-shell">
+                  <Stars className="h-5 w-5" />
+                </div>
+                <div>
+                  <p className="font-semibold text-white">Recommended live demo flow</p>
+                  <p className="mt-2 text-sm leading-7 text-slate-400">
+                    Start on the landing page, open the dashboard, switch wallets, review
+                    analytics, then walk through send/receive, swap, and bridge to show the
+                    full product story in under two minutes.
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -125,8 +138,8 @@ export default function SettingsPage() {
               AI recommendation
             </span>
             <p className="mt-4 text-sm leading-7 text-slate-300">
-              Keep budget warnings on, daily digest on, and demo mode enabled until live wallet
-              ingestion is wired to a production sync pipeline.
+              Keep budget warnings and daily digest enabled for the strongest submission story,
+              then use wallet switching and analytics as the main proof of product depth.
             </p>
           </div>
         </article>
